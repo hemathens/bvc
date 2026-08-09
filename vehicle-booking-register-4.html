@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="description" content="BVC-KU Transport & Ambulance Booking System - Office Use Only">
+  <title>BVC-KU Transport & Ambulance Booking Register</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="header-icon">✚</div>
+      <h1 class="header-title">BVC-KU Transport &amp; Ambulance Booking Register</h1>
+      <p class="header-subtitle">2 staff cars · 1 ambulance · office use only</p>
+      <div class="approval-refs">
+        <span class="ref-item">HOD Approval: <strong>1122</strong></span>
+        <span class="ref-item">Transport Office: <strong>2580</strong></span>
+        <span class="ref-item">Principal's Office: <strong>1947</strong></span>
+      </div>
+    </header>
+
+    <!-- Booking Form Section -->
+    <section class="booking-form-section">
+      <h2>New Booking Request</h2>
+      <form id="bookingForm" class="booking-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="requesterName">Requester Name *</label>
+            <input type="text" id="requesterName" name="requesterName" required>
+          </div>
+          <div class="form-group">
+            <label for="department">Department *</label>
+            <select id="department" name="department" required>
+              <option value="">Select Department</option>
+              <option value="HOD">HOD</option>
+              <option value="Transport Office">Transport Office</option>
+              <option value="Principal's Office">Principal's Office</option>
+              <option value="Administration">Administration</option>
+              <option value="Academic">Academic</option>
+              <option value="Medical">Medical</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="vehicleType">Vehicle Type *</label>
+            <select id="vehicleType" name="vehicleType" required>
+              <option value="">Select Vehicle</option>
+              <option value="Staff Car 1">Staff Car 1</option>
+              <option value="Staff Car 2">Staff Car 2</option>
+              <option value="Ambulance">Ambulance</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookingDate">Booking Date *</label>
+            <input type="date" id="bookingDate" name="bookingDate" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="startTime">Start Time *</label>
+            <input type="time" id="startTime" name="startTime" required>
+          </div>
+          <div class="form-group">
+            <label for="endTime">End Time *</label>
+            <input type="time" id="endTime" name="endTime" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="destination">Destination *</label>
+          <input type="text" id="destination" name="destination" placeholder="Enter destination address" required>
+        </div>
+
+        <div class="form-group">
+          <label for="purpose">Purpose of Journey *</label>
+          <textarea id="purpose" name="purpose" rows="3" placeholder="Describe the purpose of the journey" required></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="passengers">Number of Passengers</label>
+            <input type="number" id="passengers" name="passengers" min="1" max="10" value="1">
+          </div>
+          <div class="form-group">
+            <label for="approvalCode">Approval Code</label>
+            <input type="text" id="approvalCode" name="approvalCode" placeholder="Optional">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Submit Booking</button>
+          <button type="reset" class="btn btn-secondary">Clear Form</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Bookings List Section -->
+    <section class="bookings-section">
+      <div class="section-header">
+        <h2>Current Bookings</h2>
+        <div class="filter-controls">
+          <select id="filterVehicle" class="filter-select">
+            <option value="all">All Vehicles</option>
+            <option value="Staff Car 1">Staff Car 1</option>
+            <option value="Staff Car 2">Staff Car 2</option>
+            <option value="Ambulance">Ambulance</option>
+          </select>
+          <input type="date" id="filterDate" class="filter-date">
+        </div>
+      </div>
+      
+      <div id="bookingsList" class="bookings-list">
+        <div class="loading-message">No bookings yet. Submit the first booking above.</div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+      <h3>Today's Statistics</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="totalBookings">0</div>
+          <div class="stat-label">Total Bookings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="staffCarBookings">0</div>
+          <div class="stat-label">Staff Cars</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="ambulanceBookings">0</div>
+          <div class="stat-label">Ambulance</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 
+    DEPLOYMENT CONFIGURATION:
+    - For static deployment (no backend): use app.js
+    - For backend with database: use app-with-api.js
+    Current: LocalStorage version (app.js)
+  -->
+  <script src="app.js"></script>
+  
+  <!-- 
+    To enable backend API, comment above line and uncomment below:
+    <script src="app-with-api.js"></script>
+  -->
+</body>
+</html>

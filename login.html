@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+    <title>Login - BVC-KU Transport System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#13332e",
+                        "on-primary-container": "#7b9c95",
+                        "secondary-container": "#fdb96b",
+                        "background": "#faf9f8",
+                        "surface-container": "#eeeeec",
+                        "on-surface": "#1a1c1b",
+                        "on-surface-variant": "#414846",
+                        "outline-variant": "#c1c8c5",
+                        "error": "#ba1a1a",
+                        "primary": "#001e19"
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12">
+            <div class="flex flex-col items-center mb-8">
+                <img alt="BVC-KU Logo" class="h-16 w-auto object-contain mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbDTqwR0f-1X-5kvk6TWl-YpLNu7551G6NLlbFVE0yJpukIiC9q10M_S5hZDSnLQiI050Vn1aNBS06cmdN7e-Y3_iBz0_LLObYR6a3UH2DK-atwOBNMw9ILqUu76PCphEI2B4BJjZe-R1Bn1Ns1TwpdHFqAFYiPO51yOv8XSDUn9SelVXF-rmDYJfnsJSu8RJUAWU9UR8C8_ddok4MkqNRb0UrYAv_miCgFd3T16PNSmkl8TYIXf6pmQ"/>
+                <h1 class="text-2xl font-bold text-primary-container mb-2">BVC-KU Transport</h1>
+                <p class="text-sm text-on-surface-variant">Sign in to continue</p>
+            </div>
+            
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface mb-2" for="username">Username</label>
+                    <input 
+                        class="w-full px-4 py-3 rounded-lg border-2 border-outline-variant focus:border-primary-container focus:outline-none transition-colors" 
+                        id="username" 
+                        type="text" 
+                        placeholder="Enter your username"
+                        required
+                    />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface mb-2" for="password">Password</label>
+                    <input 
+                        class="w-full px-4 py-3 rounded-lg border-2 border-outline-variant focus:border-primary-container focus:outline-none transition-colors" 
+                        id="password" 
+                        type="password" 
+                        placeholder="Enter your password"
+                        required
+                    />
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="remember" class="mr-2 rounded">
+                        <span class="text-sm text-on-surface-variant">Remember me</span>
+                    </label>
+                </div>
+                
+                <button 
+                    type="submit" 
+                    class="w-full bg-primary-container text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                >
+                    <span>Sign In</span>
+                    <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                </button>
+                
+                <div id="error-message" class="hidden bg-error/10 text-error px-4 py-3 rounded-lg text-sm"></div>
+            </form>
+            
+            <div class="mt-8 pt-6 border-t border-outline-variant">
+                <p class="text-xs text-center text-on-surface-variant">
+                    Default credentials: <strong>admin</strong> / <strong>admin123</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const errorDiv = document.getElementById('error-message');
+            
+            // Simple authentication (replace with real auth in production)
+            if (username === 'admin' && password === 'admin123') {
+                const userData = { username, loginTime: new Date().toISOString() };
+                localStorage.setItem('bvcku_user', JSON.stringify(userData));
+                if (remember) {
+                    localStorage.setItem('bvcku_remember', 'true');
+                }
+                window.location.href = 'modern-index.html';
+            } else {
+                errorDiv.textContent = 'Invalid username or password';
+                errorDiv.classList.remove('hidden');
+                setTimeout(() => errorDiv.classList.add('hidden'), 3000);
+            }
+        });
+    </script>
+</body>
+</html>
